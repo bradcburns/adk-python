@@ -43,6 +43,13 @@ ENV GOOGLE_CLOUD_LOCATION={gcp_region}
 
 # Set up environment variables - End
 
+# Install git - Start
+USER root
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git
+USER myuser
+# Install git - End
+
 # Install ADK - Start
 RUN pip install google-adk=={adk_version}
 # Install ADK - End
@@ -56,7 +63,7 @@ COPY "agents/{app_name}/" "/app/agents/{app_name}/"
 
 EXPOSE {port}
 
-CMD adk {command} --port={port} {host_option} {service_option} {trace_to_cloud_option} {allow_origins_option} {a2a_option} "/app/agents/{app_name}/"}"
+CMD adk {command} --port={port} {host_option} {service_option} {trace_to_cloud_option} {allow_origins_option} {a2a_option} "/app/agents/{app_name}/"
 """
 
 _AGENT_ENGINE_APP_TEMPLATE = """
